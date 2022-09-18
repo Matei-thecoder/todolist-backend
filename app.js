@@ -6,7 +6,7 @@ const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const { MongoDBNamespace } = require('mongodb');
+const mongodb = require('mongodb');
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}))

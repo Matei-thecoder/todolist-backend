@@ -158,7 +158,5 @@ app.post('/signup',async (req,res)=>{
     })
   })
   
-  const PORT = 5000;
-  app.listen(process.env.PORT || 5000,() =>{
-      console.log(`Server started on port ${PORT}...`);
-    });
+  
+  app.listen(process.env.PORT || 5000)

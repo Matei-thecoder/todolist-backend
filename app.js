@@ -14,39 +14,39 @@ app.use(bodyparser.urlencoded({extended:false}))
 
 app.use(cors());
 
-app.post('/signup',(req,res)=>{
+app.post('/signup',async (req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("todo");
-      let hashedPassword = bcrypt.hashSync(password,10);
-      var myobj = { name: username, password: hashedPassword };
-      let query = {name:username};
-      dbo.collection('users').find(query).toArray((err,result1)=>{
-        if(err) throw err;
-        if(result1.length>0)
-        {
-            res.send("name issue");
-        }
-        else
-        {
-          dbo.collection('users').insertOne(myobj, function(err, results) {
-            if (err)
-            {
-              res.send("Error");
-              throw err;
-              
-            } 
-            console.log("1 document inserted ...");
-            res.send("/login");
-            db.close();
-      
-          });
-        }
-      })
-      
+    MongoClient.connect(url, function (err, db) {
+    if (err)
+      throw err;
+    var dbo = db.db("todo");
+    let hashedPassword = bcrypt.hashSync(password, 10);
+    var myobj = { name: username, password: hashedPassword };
+    let query = { name: username };
+    dbo.collection('users').find(query).toArray((err, result1) => {
+      if (err)
+        throw err;
+      if (result1.length > 0) {
+        res.send("name issue");
+      }
+
+      else {
+        dbo.collection('users').insertOne(myobj, function (err, results) {
+          if (err) {
+            res.send("Error");
+            throw err;
+
+          }
+          console.log("1 document inserted ...");
+          res.send("/login");
+          db.close();
+
+        });
+      }
     });
+
+  });
   })
 
   /*app.post('/login',(req,res)=>{
@@ -71,7 +71,7 @@ app.post('/signup',(req,res)=>{
       });
     });
   })*/
-  app.post('/login',(req,res)=>{
+  app.post('/login',async (req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
     MongoClient.connect(url, function(err, db) {
@@ -102,7 +102,7 @@ app.post('/signup',(req,res)=>{
       });
   })
 
-  app.post('/addList',(req,res)=>{
+  app.post('/addList',async (req,res)=>{
     const list = req.body.inputFields;
     const username = req.body.username;
     const title = req.body.title;
@@ -123,7 +123,7 @@ app.post('/signup',(req,res)=>{
     })
   })
  
-  app.post('/getLists',(req,res)=>{
+  app.post('/getLists',async (req,res)=>{
     const username = req.body.username;
     MongoClient.connect(url,(err,db)=>{
       if(err) throw err; 
@@ -137,7 +137,7 @@ app.post('/signup',(req,res)=>{
     })
   })
 
-  app.post('/deleteList',(req,res)=>{
+  app.post('/deleteList',async (req,res)=>{
     const id = req.body.id;
     MongoClient.connect(url,(err,db)=>{
       if(err) throw err;
